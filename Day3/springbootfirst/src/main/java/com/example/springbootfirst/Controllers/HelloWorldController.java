@@ -18,20 +18,23 @@ public class HelloWorldController {
     public List<Employee> getMethod(){
         return hws.getmethod();
     }
-
+    @GetMapping("/{empId}")
+    public Employee getEmployeeById(@PathVariable int empId){
+        return hws.getEmployeeById(empId);
+    }
     @PostMapping
     public String postmethod(@RequestBody Employee employee){
         return hws.postmethod(employee);
     }
 //
-    @PutMapping
-    public String putmethod(){
-        return hws.putmethod();
+    @PutMapping("/{empId}")
+    public String putmethod(@PathVariable int empId,@RequestBody Employee employee){
+        return hws.putmethod(empId,employee);
     }
 
-    @DeleteMapping
-    public String deletemethod(){
-        return hws.deletemethod();
+    @DeleteMapping("/{empId}")
+    public String deletemethod(@PathVariable int empId){
+        return hws.deletemethod(empId);
     }
 
 }

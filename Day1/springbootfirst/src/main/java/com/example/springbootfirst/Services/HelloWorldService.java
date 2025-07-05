@@ -18,8 +18,9 @@ public class HelloWorldService {
         return emp;
     }
 
-    public String postmethod(){
-        return "You are in postmethod";
+    public String postmethod(Employee employee){
+        emp.add(employee);
+        return "employee added successfully";
     }
 
     public String putmethod(){
