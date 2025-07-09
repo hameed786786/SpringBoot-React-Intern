@@ -48,8 +48,8 @@ public class SpringConfiguration {
                 .roles("ADMIN")
                 .build();
         UserDetails prashath= User.builder()
-                .username("prashath")
-                .password(passwordEncoder().encode("prashath"))
+                .username("hameed")
+                .password(passwordEncoder().encode("hameed"))
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(admin,prashath);
