@@ -1,18 +1,18 @@
 package com.example.springbootfirst.controllers;
 
 import com.example.springbootfirst.models.Employee;
-import com.example.springbootfirst.services.HelloWorldService;
+import com.example.springbootfirst.models.RegisterDetails;
+import com.example.springbootfirst.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class HelloWorld {
+public class EmployeeController {
     @Autowired
-    private HelloWorldService hws;
+    private EmployeeService employeeService;
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/")
     public String  hello(){
@@ -21,12 +21,12 @@ public class HelloWorld {
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/employee")
     public List<Employee> getMethod() {
-       return hws.getMethod();
+       return employeeService.getMethod();
     }
     @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("/employee")
-    public String postMethod(@RequestBody Employee employee) {
-        return hws.addEmployee(employee);
+    public String postMethod(@RequestBody RegisterDetails employee) {
+        return employeeService.addEmployee(employee);
     }
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/employee/id/{id}")
