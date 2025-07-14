@@ -63,4 +63,7 @@ public class EmployeeController {
     public String deleteMethod(@PathVariable int empID){
         return employeeService.deleteEmployeeById(empID);
     }
+
+
+
 }

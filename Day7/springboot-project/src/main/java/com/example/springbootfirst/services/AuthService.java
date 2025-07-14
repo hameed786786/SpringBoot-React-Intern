@@ -52,4 +52,33 @@ public class AuthService {
         }
         return "Login Not Successful";
     }
+
+
+
+    public String updateEmployeeById(int id, RegisterDetails updatedData) {
+        RegisterDetails existing = regRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found with id: " + id));
+
+        existing.setName(updatedData.getName());
+        existing.setUserName(updatedData.getUserName());
+        existing.setEmail(updatedData.getEmail());
+        existing.setPassword(passwordEncoder.encode(updatedData.getPassword()));
+        existing.setRoles(updatedData.getRoles());
+
+        regRepo.save(existing);
+        return "Employee updated successfully";
+    }
+
+    public List<RegisterDetails> findEmployeesByRole(String roleName){
+        List<RegisterDetails> employees = new ArrayList<>();
+
+        for(RegisterDetails registerDetails : regRepo.findAll()){
+            for(Roles role : registerDetails.getRoles()){
+                if(role.getRoleName().equals(roleName.toUpperCase())){
+                    employees.add(registerDetails);
+                }
+            }
+        }
+        return employees;
+    }
 }
