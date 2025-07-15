@@ -30,7 +30,7 @@ public class JwtTokenProvider {
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+jwtExpirationMilliseconds))
-                 .signWith(secretKey(),SignatureAlgorithm.HS512)
+                .signWith(secretKey(),SignatureAlgorithm.HS512)
                 .compact();
     }
     public String getUsernameFromToken(String token) {
