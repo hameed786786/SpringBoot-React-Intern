@@ -1,21 +1,32 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  async function handleLogin(event){
+  const [error, setError] = useState("");
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  async function handleLogin(event) {
     event.preventDefault();
-    try{
-        const token = await axios.post("http://localhost:3001/api/auth/login",{userName,password})
-        console.log(token);
-        alert("Login Successful")
-    } catch (e){
-        console.log("Login Error", e);
-        alert("Invalid Cred")
+    setError("");
+    try {
+      const res = await axios.post("https://springboot-react-intern.onrender.com/api/auth/login", { userName, password });
+      if (res.data && res.data.token) {
+        setAuth({ token: res.data.token, user: res.data.user });
+        alert("Login Successful");
+        navigate("/");
+      } else {
+        setError("Invalid response from server");
+      }
+    } catch (e) {
+      setError("Invalid credentials or server error");
     }
-    console.log("Form Submitted");
   }
+
   return (
     <div>
       <h2>Login</h2>
@@ -40,7 +51,9 @@ const Login = () => {
           />
           <br />
           <br />
-          <button type="submit">Login</button><br /><br />
+          <button type="submit">Login</button>
+          <br /><br />
+          {error && <div style={{ color: "red" }}>{error}</div>}
         </form>
       </div>
     </div>

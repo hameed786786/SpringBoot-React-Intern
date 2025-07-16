@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../App';
 
 const Navbar = () => {
   const styles = {
@@ -7,7 +8,7 @@ const Navbar = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: '#17e3c8ff',
+      backgroundColor: '#dd1515ff',
       padding: '1.2rem 2.5rem',
       color: '#f2e9e4',
       boxShadow: '0 2px 12px rgba(34, 53, 179, 0.1)',
@@ -39,12 +40,26 @@ const Navbar = () => {
   const handleMouseEnter = (e) => (e.target.style.color = '#f39c12');
   const handleMouseLeave = (e) => (e.target.style.color = 'white');
 
+  const { auth, setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setAuth({ token: null, user: null });
+    navigate('/login');
+  };
+
   return (
     <nav style={styles.navbar}>
       <Link to="/" style={styles.logo}>EMS</Link>
       <div style={styles.navLinks}>
-        <Link to="/login" style={styles.navLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Login</Link>
-        <Link to="/register" style={styles.navLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Register</Link>
+        {!auth.token ? (
+          <>
+            <Link to="/login" style={styles.navLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Login</Link>
+            <Link to="/register" style={styles.navLink} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>Register</Link>
+          </>
+        ) : (
+          <button onClick={handleLogout} style={{...styles.navLink, background: 'none', border: 'none', cursor: 'pointer'}}>Logout</button>
+        )}
       </div>
     </nav>
   );
