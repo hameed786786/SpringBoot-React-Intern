@@ -1,0 +1,2 @@
+Assigned task to each employee
+Implemented search bar
